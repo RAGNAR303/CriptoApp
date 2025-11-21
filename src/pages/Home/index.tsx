@@ -1,35 +1,19 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-
-interface CoinProps {
-  changePercent24Hr: string;
-  explorer: string;
-  id: string;
-  marketCapUsd: string;
-  maxSupply: string;
-  name: string;
-  priceUsd: string;
-  rank: string;
-  supply: string;
-  symbol: string;
-  tokens: string;
-  volumeUsd24Hr: string;
-  vwap24Hr: string;
-}
-
-interface DataProps {
-  data: CoinProps[];
-}
+import type { CoinProps, DataProps } from "../../interfaces/interfaces";
+import { formatedPrice } from "../../utils/formatedNumber";
 
 export function Home() {
   const [input, setInput] = useState("");
   const [coins, setCoins] = useState<CoinProps[]>([]);
+  const [offset, setOffset] = useState(0);
   const navigate = useNavigate();
 
   async function getData() {
+    console.log(offset);
     fetch(
-      "https://rest.coincap.io/v3/assets?limit=10&offset=0&apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541"
+      `https://rest.coincap.io/v3/assets?limit=10&offset=${offset}=0&apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541`
     )
       .then((response) => response.json())
       .then((data: DataProps) => {
@@ -40,21 +24,31 @@ export function Home() {
           currency: "USD",
         });
 
+        const priceCompact = Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          notation: "compact",
+        });
+
         const formatedResult = dataCoins.map((item) => {
           const formated = {
             ...item,
             formatedPrice: price.format(Number(item.priceUsd)),
-            formatedMarked: price.format(Number(item.marketCapUsd)),
+            formatedMarked: priceCompact.format(Number(item.marketCapUsd)),
+            formatedUsd24h: priceCompact.format(Number(item.volumeUsd24Hr)),
           };
           return formated;
         });
-        console.log(formatedResult);
+        // console.log(formatedResult);
+        const listCoins = [...coins, ...formatedResult];
+        console.log(listCoins);
+        setCoins(listCoins);
       });
   }
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [offset]);
 
   function handleCoinSearch(e: FormEvent) {
     e.preventDefault();
@@ -64,7 +58,14 @@ export function Home() {
     navigate(`/detail/${input}`);
   }
 
-  function showMoreCoin() {}
+  function showMoreCoin() {
+    if (offset === 0) {
+      setOffset(10);
+      return;
+    }
+
+    setOffset(offset + 10);
+  }
 
   return (
     <main className="flex justify-center w-full flex-col">
@@ -74,7 +75,7 @@ export function Home() {
       >
         <div
           className=" w-[85%] md:w-[60%] flex justify-center items-center 
-         p-1 bg-gray-100 rounded-4xl overflow-hidden "
+         p-1 bg-gray-300 rounded-4xl overflow-hidden "
         >
           <input
             className="w-full focus:outline-none  py-1 px-4 flex-10 font-bold "
@@ -93,8 +94,8 @@ export function Home() {
         </div>
       </form>
 
-      <table className="mt-10 w-[90%] md:w-[80%] m-auto border-separate border-spacing-y-3 table-fixed ">
-        <thead className="bg-gray-100">
+      <table className="mt-10 w-[90%]  m-auto border-separate border-spacing-y-3 table-fixed ">
+        <thead className="bg-gray-300">
           <tr className="hidden md:table-row">
             <th className="p-4" scope="col">
               Moeda
@@ -106,20 +107,40 @@ export function Home() {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-gray-600/35 cursor-pointer text-gray-300 text-center p-4 font-bold rounded-3xl border border-gray-50">
-            <td data-label="Moeda" className="p-4 ">
-              <Link to={"/detail/bitcoin"}>
-                <span>Bitcoin</span> | BTC
-              </Link>
-            </td>
+          {coins.map((coin) => (
+            <tr
+              key={coin.id}
+              className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold rounded-3xl border"
+            >
+              <td data-label="Moeda" className="p-2 ">
+                <div className="flex justify-end md:justify-center items-center gap-1 p-4 ">
+                  <img
+                    src={`https://assets.coincap.io/assets/icons/${coin.symbol.toLocaleLowerCase()}@2x.png`}
+                    alt={coin.name}
+                    className="w-12 hover:scale-110 duration-300"
+                  />
+                  <Link to={`/detail/${coin.id}`}>
+                    <span>{coin.name}</span> | {coin.symbol}
+                  </Link>
+                </div>
+              </td>
 
-            <td data-label="Valor Mercado">1 T</td>
-            <td data-label="Preço">1 8.000</td>
-            <td data-label="Volume">2B</td>
-            <td data-label="Mudança 24h">
-              <span className="text-green-500">1.20%</span>
-            </td>
-          </tr>
+              <td data-label="Valor Mercado">{coin.formatedMarked}</td>
+              <td data-label="Preço">{formatedPrice(coin.priceUsd)}</td>
+              <td data-label="Volume">{coin.formatedUsd24h}</td>
+              <td data-label="Mudança 24h">
+                <span
+                  className={
+                    Number(coin.changePercent24Hr) > 0
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }
+                >
+                  {Number(coin.changePercent24Hr).toFixed(2)}
+                </span>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <button
