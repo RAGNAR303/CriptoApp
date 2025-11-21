@@ -8,6 +8,7 @@ import {
   formatedPriceCompact,
 } from "../../utils/formatedNumber";
 import { Button } from "../../components/Button";
+import { GoHomeFill } from "react-icons/go";
 
 interface RenponseData {
   data: CoinProps;
@@ -56,7 +57,6 @@ export function Details() {
   if (loading || !coin) {
     return (
       <div className="flex items-center justify-center flex-col">
-        {/* <div className="w-10 h-10 rounded-full border-4 border-gray-400/50 border-t-blue-700 animate-spin"></div> */}
         <BiLogoBitcoin className="animate-bounce text-blue-500 text-5xl " />
         <h1 className="text-3xl text-white">Carregando moeda....</h1>
       </div>
@@ -70,7 +70,7 @@ export function Details() {
       </h1>
       <section className="flex justify-between gap-3 max-w-3xl w-full md:max-w-xl bg-gray-600/35  cursor-pointer text-gray-300  p-5 font-bold rounded-3xl border border-gray-500">
         <img
-          className="w-25 md:w-30 "
+          className="w-30 md:w-40 object-cover "
           src={getIcon(coin?.symbol)}
           alt={coin?.name}
         />
@@ -93,7 +93,7 @@ export function Details() {
           </li>
         </ul>
       </section>
-      <Button label="Inicio" to={"/"} />
+      <Button label="Inicio" to={"/"} icon={<GoHomeFill />}/>
     </div>
   );
 }

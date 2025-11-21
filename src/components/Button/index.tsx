@@ -1,21 +1,23 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface ButtonProps {
-  label: string;
+  label?: string;
   to?: string | undefined;
   onClick?: VoidFunction;
+  icon?: ReactNode;
 }
 
-export function Button({ label, to, ...props }: ButtonProps) {
+export function Button({ label, icon, to, ...props }: ButtonProps) {
   return (
     <Link
       to={to ?? "#"}
-      className="flex justify-center items-center md:text-2xl rounded-4xl py-2 px-4 
+      className="flex justify-center items-center md:text-2xl rounded-4xl py-2 px-4 gap-2
       font-bold text-gray-200  bg-linear-to-r from-blue-500 to-blue-800 hover:scale-110 hover:opacity-90
       active:hover:scale-105 duration-300 shadow-2xl my-5"
       {...props}
     >
-      {label}
+      {icon} {label}
     </Link>
   );
 }

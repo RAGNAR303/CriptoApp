@@ -1,5 +1,4 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import type { CoinProps, DataProps } from "../../interfaces/interfaces";
 import {
@@ -8,30 +7,45 @@ import {
 } from "../../utils/formatedNumber";
 import { Button } from "../../components/Button";
 import { getIcon } from "../../utils/getImages";
+import { FaPlusCircle } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { BiLogoBitcoin } from "react-icons/bi";
+import { api } from "../../services/api";
 
 export function Home() {
   const [input, setInput] = useState("");
   const [coins, setCoins] = useState<CoinProps[]>([]);
   const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  async function getData() {
-    console.log(offset);
-    fetch(
-      `https://rest.coincap.io/v3/assets?limit=10&offset=${offset}=0&apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541`
-    )
-      .then((response) => response.json())
-      .then((data: DataProps) => {
-        const dataCoins = data.data;
+  async function getCoins() {
+    const {
+      data: { data },
+    } = await api.get<DataProps>(`/assets?limit=10&offset=${offset}&`);
 
-        // console.log(formatedResult);
-        const listCoins = [...coins, ...dataCoins];
-        setCoins(listCoins);
-      });
+    const listCoins = [...coins, ...data];
+    setCoins(listCoins);
+    setLoading(false);
   }
 
+  // async function getData() {
+  //   fetch(
+  //     `https://rest.coincap.io/v3/assets?limit=10&offset=${offset}=0&apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data: DataProps) => {
+  //       const dataCoins = data.data;
+
+  //       const listCoins = [...coins, ...dataCoins];
+  //       setCoins(listCoins);
+  //       setLoading(false);
+  //     });
+  // }
+
   useEffect(() => {
-    getData();
+    // getData();
+    getCoins();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset]);
 
@@ -52,6 +66,15 @@ export function Home() {
     setOffset(offset + 10);
   }
 
+  if (loading || !coins) {
+    return (
+      <div className="flex items-center justify-center flex-col h-full">
+        <BiLogoBitcoin className="animate-bounce text-blue-500 text-5xl " />
+        <h1 className="text-3xl text-white">Carregando moeda....</h1>
+      </div>
+    );
+  }
+
   return (
     <main className="flex justify-center items-center w-full flex-col">
       <form
@@ -69,12 +92,12 @@ export function Home() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
+
           <button
             type="submit"
-            className="
-         bg-blue-600  flex-1 flex justify-center items-center rounded-4xl p-2 "
+            className="bg-linear-to-r from-blue-500 to-blue-800 flex-1 flex justify-center items-center rounded-4xl p-2 "
           >
-            <BsSearch className="text-2xl text-gray-100" />
+            <FaMagnifyingGlass className="text-2xl text-gray-100" />
           </button>
         </div>
       </form>
@@ -95,19 +118,24 @@ export function Home() {
           {coins.map((coin) => (
             <tr
               key={coin.id}
-              className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold"
+              className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold "
             >
-              <td className="p-2  ">
-                <div className="flex justify-center md:justify-start items-center gap-1 p-4 ">
-                  <img
-                    src={getIcon(coin.symbol)}
-                    alt={coin.name}
-                    className="w-12 hover:scale-110 duration-300"
-                  />
-                  <Link to={`/detail/${coin.id}`}>
-                    <span>{coin.name}</span> | {coin.symbol}
-                  </Link>
-                </div>
+              <td className="overflow-hidden">
+                <Link
+                  to={`/detail/${coin.id}`}
+                  className="flex justify-center items-center  md:justify-start w-full h-full p-4 hover:bg-gray-500/50 duration-300"
+                >
+                  <div className="flex items-center justify-center gap-1  p-4 ">
+                    <img
+                      src={getIcon(coin.symbol)}
+                      alt={coin.name}
+                      className="w-12 hover:scale-110 duration-300"
+                    />
+                    <div className="flex flex-col">
+                      <span>{coin.name}</span> | {coin.symbol}
+                    </div>
+                  </div>
+                </Link>
               </td>
 
               <td data-label="Valor Mercado">
@@ -132,7 +160,11 @@ export function Home() {
           ))}
         </tbody>
       </table>
-      <Button label="Carregar mais moedas" onClick={showMoreCoin} />
+      <Button
+        label="Moedas"
+        icon={<FaPlusCircle className="" />}
+        onClick={showMoreCoin}
+      />
     </main>
   );
 }
