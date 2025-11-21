@@ -3,6 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { CoinProps } from "../../interfaces/interfaces";
 import { BiLogoBitcoin } from "react-icons/bi";
 import { getIcon } from "../../utils/getImages";
+import {
+  formatedPrice,
+  formatedPriceCompact,
+} from "../../utils/formatedNumber";
+import { Button } from "../../components/Button";
 
 interface RenponseData {
   data: CoinProps;
@@ -34,33 +39,7 @@ export function Details() {
               navigate("/");
               return;
             }
-
-            console.log(data.data);
-
-            const price = Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            });
-
-            const priceCompact = Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-              notation: "compact",
-            });
-
-            const formatedDAta = {
-              ...data.data,
-              formatedPrice: price.format(Number(data.data.priceUsd)),
-              formatedMarked: priceCompact.format(
-                Number(data.data.marketCapUsd)
-              ),
-              formatedUsd24h: priceCompact.format(
-                Number(data.data.volumeUsd24Hr)
-              ),
-            };
-
-            setCoin(formatedDAta);
-            console.log(formatedDAta);
+            setCoin(data.data);
             setLoading(false);
           });
       } catch (err) {
@@ -97,9 +76,9 @@ export function Details() {
         />
         <ul className="text-start md:text-2xl">
           <li>Rank: {coin?.rank}º </li>
-          <li>Preço: {coin?.formatedPrice}</li>
-          <li>Mercado: {coin?.formatedMarked}</li>
-          <li>Volume: {coin?.formatedUsd24h}</li>
+          <li>Preço: {formatedPrice(coin?.priceUsd)}</li>
+          <li>Mercado: {formatedPriceCompact(coin?.marketCapUsd)}</li>
+          <li>Volume: {formatedPriceCompact(coin?.volumeUsd24Hr)}</li>
           <li>
             Mudança 24h:
             <span
@@ -114,6 +93,7 @@ export function Details() {
           </li>
         </ul>
       </section>
+      <Button label="Inicio" to={"/"} />
     </div>
   );
 }

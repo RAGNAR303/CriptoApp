@@ -2,7 +2,12 @@ import { useEffect, useState, type FormEvent } from "react";
 import { BsSearch } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import type { CoinProps, DataProps } from "../../interfaces/interfaces";
-import { formatedPrice } from "../../utils/formatedNumber";
+import {
+  formatedPrice,
+  formatedPriceCompact,
+} from "../../utils/formatedNumber";
+import { Button } from "../../components/Button";
+import { getIcon } from "../../utils/getImages";
 
 export function Home() {
   const [input, setInput] = useState("");
@@ -19,35 +24,15 @@ export function Home() {
       .then((data: DataProps) => {
         const dataCoins = data.data;
 
-        const price = Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
-
-        const priceCompact = Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-          notation: "compact",
-        });
-
-        const formatedResult = dataCoins.map((item) => {
-          const formated = {
-            ...item,
-            formatedPrice: price.format(Number(item.priceUsd)),
-            formatedMarked: priceCompact.format(Number(item.marketCapUsd)),
-            formatedUsd24h: priceCompact.format(Number(item.volumeUsd24Hr)),
-          };
-          return formated;
-        });
         // console.log(formatedResult);
-        const listCoins = [...coins, ...formatedResult];
-        console.log(listCoins);
+        const listCoins = [...coins, ...dataCoins];
         setCoins(listCoins);
       });
   }
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset]);
 
   function handleCoinSearch(e: FormEvent) {
@@ -68,14 +53,14 @@ export function Home() {
   }
 
   return (
-    <main className="flex justify-center w-full flex-col">
+    <main className="flex justify-center items-center w-full flex-col">
       <form
         onSubmit={handleCoinSearch}
         className="flex flex-col justify-center w-full items-center"
       >
         <div
           className=" w-[85%] md:w-[60%] flex justify-center items-center 
-         p-1 bg-gray-300 rounded-4xl overflow-hidden "
+         p-1 bg-gray-300 rounded-4xl overflow-hidden shadow-2xl "
         >
           <input
             className="w-full focus:outline-none  py-1 px-4 flex-10 font-bold "
@@ -110,12 +95,12 @@ export function Home() {
           {coins.map((coin) => (
             <tr
               key={coin.id}
-              className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold rounded-3xl border"
+              className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold"
             >
-              <td data-label="Moeda" className="p-2 ">
-                <div className="flex justify-end md:justify-center items-center gap-1 p-4 ">
+              <td className="p-2  ">
+                <div className="flex justify-center md:justify-start items-center gap-1 p-4 ">
                   <img
-                    src={`https://assets.coincap.io/assets/icons/${coin.symbol.toLocaleLowerCase()}@2x.png`}
+                    src={getIcon(coin.symbol)}
                     alt={coin.name}
                     className="w-12 hover:scale-110 duration-300"
                   />
@@ -125,9 +110,13 @@ export function Home() {
                 </div>
               </td>
 
-              <td data-label="Valor Mercado">{coin.formatedMarked}</td>
-              <td data-label="Preço">{formatedPrice(coin.priceUsd)}</td>
-              <td data-label="Volume">{coin.formatedUsd24h}</td>
+              <td data-label="Valor Mercado">
+                {formatedPriceCompact(coin?.marketCapUsd)}
+              </td>
+              <td data-label="Preço">{formatedPrice(coin?.priceUsd)}</td>
+              <td data-label="Volume">
+                {formatedPriceCompact(coin?.volumeUsd24Hr)}
+              </td>
               <td data-label="Mudança 24h">
                 <span
                   className={
@@ -143,13 +132,7 @@ export function Home() {
           ))}
         </tbody>
       </table>
-      <button
-        onClick={showMoreCoin}
-        className="
-         bg-blue-600 ml-[10%]  flex-1 flex justify-center items-center rounded-4xl p-2 text-white font-bold w-[40%] md:w-[20%] "
-      >
-        Carregar mais
-      </button>
+      <Button label="Carregar mais moedas" onClick={showMoreCoin} />
     </main>
   );
 }

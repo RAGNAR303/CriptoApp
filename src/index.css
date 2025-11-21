@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-
-
 body {
   background-color: #0c0f1b;
   width: 100%;
@@ -30,6 +28,10 @@ a {
 
 }
 
+th {
+  font-size: larger;
+}
+
 td:first-child,
 th:first-child {
   border-radius: 8px 0 0 8px;
@@ -42,29 +44,34 @@ th:last-child {
 
 @media screen and (max-width: 768px) {
 
+  tr {
+
+    background: transparent;
+  }
 
   td:first-child,
   th:first-child {
-    border-radius: 0;
+    border-radius: 8px;
   }
 
   td:last-child,
   th:last-child {
-    border-radius: 0;
-  }
-
-  tr {
     border-radius: 8px;
-
   }
+
+  td {
+    border-radius: 8px;
+    background: rgba(74, 85, 101, 0.441);
+  }
+
+
 
   table td {
     display: block;
     text-align: right;
-
-    border-bottom: 1px solid #606060a8;
-
+    border: 1px solid #606060a8;
     padding: 10px;
+
   }
 
   table td::before {
