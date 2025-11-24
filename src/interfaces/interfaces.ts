@@ -20,3 +20,5 @@ export interface CoinProps {
 export interface DataProps {
   data: CoinProps[];
 }
+
+

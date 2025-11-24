@@ -9,16 +9,11 @@ import {
 } from "../../utils/formatedNumber";
 import { Button } from "../../components/Button";
 import { GoHomeFill } from "react-icons/go";
+import { api } from "../../services/api";
 
 interface RenponseData {
   data: CoinProps;
 }
-
-interface ErrorData {
-  error: string;
-}
-
-type DataProps = RenponseData | ErrorData;
 
 export function Details() {
   const [coin, setCoin] = useState<CoinProps>();
@@ -27,36 +22,25 @@ export function Details() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function coinDetails() {
+    async function loadDetails() {
       try {
-        fetch(
-          `https://rest.coincap.io/v3/assets/${cripto}?apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541`
-        )
-          .then((response) => response.json())
-          .then((data: DataProps) => {
-            console.log(data);
+        const {
+          data: { data },
+        } = await api.get<RenponseData>(`assets/${cripto}`);
 
-            if ("error" in data) {
-              navigate("/");
-              return;
-            }
-            setCoin(data.data);
-            setLoading(false);
-          });
-      } catch (err) {
-        console.log(err);
+        setCoin(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
         navigate("/");
       }
     }
-
-    coinDetails();
+    loadDetails();
   }, [cripto, navigate]);
-
-  console.log(coin);
 
   if (loading || !coin) {
     return (
-      <div className="flex items-center justify-center flex-col">
+      <div className="flex items-center justify-center flex-col h-full">
         <BiLogoBitcoin className="animate-bounce text-blue-500 text-5xl " />
         <h1 className="text-3xl text-white">Carregando moeda....</h1>
       </div>
@@ -64,7 +48,7 @@ export function Details() {
   }
 
   return (
-    <div className="text-white flex flex-col justify-between items-center gap-10 p-2.5">
+    <div className="text-white flex flex-col justify-between items-center gap-10 p-2.5 h-full">
       <h1 className="text-5xl font-extrabold">
         {coin?.name} | <span>{coin?.symbol}</span>{" "}
       </h1>
@@ -82,18 +66,20 @@ export function Details() {
           <li>
             Mudança 24h:
             <span
-              className={
-                Number(coin?.changePercent24Hr) > 0
-                  ? "text-green-500"
-                  : "text-red-500"
-              }
+              className={`ml-1
+               ${
+                 Number(coin?.changePercent24Hr) > 0
+                   ? "text-green-500"
+                   : "text-red-500"
+               }
+              `}
             >
               {Number(coin?.changePercent24Hr).toFixed(2)}
-            </span>{" "}
+            </span>
           </li>
         </ul>
       </section>
-      <Button label="Inicio" to={"/"} icon={<GoHomeFill />}/>
+      <Button label="Inicio" to={"/"} icon={<GoHomeFill />} />
     </div>
   );
 }

@@ -95,7 +95,8 @@ export function Home() {
 
           <button
             type="submit"
-            className="bg-linear-to-r from-blue-500 to-blue-800 flex-1 flex justify-center items-center rounded-4xl p-2 "
+            className="bg-linear-to-r from-blue-500 to-blue-800 flex-1 flex justify-center items-center rounded-4xl p-2 hover:scale-110 hover:opacity-90
+      active:hover:scale-105 duration-300"
           >
             <FaMagnifyingGlass className="text-2xl text-gray-100" />
           </button>
@@ -123,7 +124,8 @@ export function Home() {
               <td className="overflow-hidden">
                 <Link
                   to={`/detail/${coin.id}`}
-                  className="flex justify-center items-center  md:justify-start w-full h-full p-4 hover:bg-gray-500/50 duration-300"
+                  className="flex justify-center items-center  md:justify-start w-full h-full p-4
+                   hover:bg-gray-500/50 duration-300 rounded-md"
                 >
                   <div className="flex items-center justify-center gap-1  p-4 ">
                     <img
