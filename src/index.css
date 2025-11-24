@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+body {
+  background-color: #0c0f1b;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+
+}
+
+.bg-blue-gradient {
+  @apply bg-linear-to-r from-blue-500 to-blue-800
+}
+
+a {
+  text-decoration: none;
+  color: #d0d0d0;
+}
+
+
+th {
+  font-size: larger;
+}
+
+td:first-child,
+th:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+td:last-child,
+th:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+@media screen and (max-width: 768px) {
+
+  tr {
+
+    background: transparent;
+  }
+
+  td:first-child,
+  th:first-child {
+    border-radius: 8px;
+  }
+
+  td:last-child,
+  th:last-child {
+    border-radius: 8px;
+  }
+
+  td {
+    border-radius: 8px;
+    background: rgba(74, 85, 101, 0.441);
+  }
+
+
+
+  table td {
+    display: block;
+    text-align: right;
+    border: 1px solid #606060a8;
+    padding: 10px;
+
+  }
+
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+
+}
