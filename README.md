@@ -58,4 +58,4 @@ pnpm dev
 ````
 👤 Créditos
 
-Desenvolvido por RAGNAR303 / Thiago — inspirado por apps de streaming, criado com proposta acadêmica, feita baseado em aulas do Rodolfo Mori do Dev club
+Desenvolvido por RAGNAR303 / Thiago — inspirado por apps de cripto moedas, criado com proposta acadêmica, feita baseado em aulas do Matheus Fraga - Sujeito Programdor.
