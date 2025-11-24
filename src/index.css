@@ -14,6 +14,10 @@ button {
 
 }
 
+.bg-blue-gradient {
+  @apply bg-linear-to-r from-blue-500 to-blue-800
+}
+
 a {
   text-decoration: none;
   color: #d0d0d0;

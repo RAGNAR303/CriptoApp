@@ -52,32 +52,40 @@ export function Details() {
       <h1 className="text-5xl font-extrabold">
         {coin?.name} | <span>{coin?.symbol}</span>{" "}
       </h1>
-      <section className="flex justify-between gap-3 max-w-3xl w-full md:max-w-xl bg-gray-600/35  cursor-pointer text-gray-300  p-5 font-bold rounded-3xl border border-gray-500">
-        <img
-          className="w-30 md:w-40 object-cover "
-          src={getIcon(coin?.symbol)}
-          alt={coin?.name}
-        />
-        <ul className="text-start md:text-2xl">
-          <li>Rank: {coin?.rank}º </li>
-          <li>Preço: {formatedPrice(coin?.priceUsd)}</li>
-          <li>Mercado: {formatedPriceCompact(coin?.marketCapUsd)}</li>
-          <li>Volume: {formatedPriceCompact(coin?.volumeUsd24Hr)}</li>
-          <li>
-            Mudança 24h:
-            <span
-              className={`ml-1
+      <section
+        data-aos="flip-up"
+        className="flex justify-between items-center gap-3 max-w-3xl w-full md:max-w-xl bg-gray-600/35  cursor-pointer text-gray-300  p-5 font-bold rounded-3xl border border-gray-500"
+      >
+        <div className="flex flex-col items-center bg-blue-gradient p-2.5 rounded-md">
+          <p className="text-3xl md:text-5xl">Rank </p>
+          <h2 className="text-5xl md:text-7xl">{coin?.rank}º </h2>
+        </div>
+        <div className="w-full flex flex-col justify-center items-center md:flex-row">
+          <img
+            className="w-30 md:w-40 object-cover "
+            src={getIcon(coin?.symbol)}
+            alt={coin?.name}
+          />
+          <ul className="text-start md:text-2xl">
+            <li>Preço: {formatedPrice(coin?.priceUsd)}</li>
+            <li>Mercado: {formatedPriceCompact(coin?.marketCapUsd)}</li>
+            <li>Volume: {formatedPriceCompact(coin?.volumeUsd24Hr)}</li>
+            <li>
+              Mudança 24h:
+              <span
+                className={`ml-1
                ${
                  Number(coin?.changePercent24Hr) > 0
                    ? "text-green-500"
                    : "text-red-500"
                }
               `}
-            >
-              {Number(coin?.changePercent24Hr).toFixed(2)}
-            </span>
-          </li>
-        </ul>
+              >
+                {Number(coin?.changePercent24Hr).toFixed(2)}
+              </span>
+            </li>
+          </ul>
+        </div>
       </section>
       <Button label="Inicio" to={"/"} icon={<GoHomeFill />} />
     </div>

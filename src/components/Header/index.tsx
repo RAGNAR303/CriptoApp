@@ -1,8 +1,12 @@
 export function Header() {
   return (
-    <header className="flex justify-center items-center h-20 gap-10">
+    <header
+      data-aos="fade-down"
+      className="flex justify-center items-center h-20 gap-10"
+    >
       <div className="flex">
-        <h1 className="bg-clip-text bg-linear-to-r from-blue-500 to-blue-800 text-transparent text-5xl font-extrabold  uppercase">
+        <h1 className="bg-clip-text bg-linear-to-r from-blue-500 to-blue-800 
+        text-transparent text-5xl font-extrabold  uppercase">
           Crypto
           <span className="text-gray-200">App</span>
         </h1>

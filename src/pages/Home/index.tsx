@@ -119,6 +119,7 @@ export function Home() {
           {coins.map((coin) => (
             <tr
               key={coin.id}
+              data-aos="zoom-in"
               className="bg-gray-600/35  cursor-pointer text-gray-300 text-center p-4 font-bold "
             >
               <td className="overflow-hidden">
