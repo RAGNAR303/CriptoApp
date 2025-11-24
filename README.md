@@ -1,78 +1,61 @@
-<<<<<<< HEAD
-# CriptoApp
-Aplicação de visualização de cripto moedas, consumindo uma API
-=======
-# React + TypeScript + Vite
+# CryptoApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🔍 Resumo
+O CryptoApp é uma aplicação web moderna e eficiente, dedicada a fornecer aos usuários uma visualização clara e atualizada do volátil mercado de criptomoedas. O projeto se propõe a resolver o desafio de acompanhar os preços em tempo quase real, centralizando informações críticas de diversas moedas digitais em uma única interface.
 
-Currently, two official plugins are available:
+## 🏹 Visão Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A aplicação funciona consumindo dados de uma API externa para obter métricas como nome, valor de mercado e preço atualizado das criptomoedas. Desenvolvida com foco em performance e uma experiência de usuário fluida, a CryptoApp é uma ferramenta de monitoramento eficiente e de alto desempenho, ideal para quem busca acompanhar o mercado de ativos digitais com facilidade e precisão em qualquer dispositivo.
 
-## React Compiler
+## 🛠️ Tecnologias Utilizadas 
+A arquitetura do projeto foi construída utilizando ferramentas modernas e focadas em desempenho e robustez. A lista abaixo detalha as principais tecnologias empregadas no desenvolvimento da CriptoApp:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- TypeScript: Garante maior segurança e robustez ao código JavaScript através da tipagem estática, essencial para aplicações complexas e de grande escala.
 
-## Expanding the ESLint configuration
+- React: fundamental para construir a interface do usuário (UI) de forma declarativa e baseada em componentes. Permite a criação de uma experiência de usuário rápida e interativa.
+- Vite: Uma ferramenta de build e bundler de última geração que oferece um ambiente de desenvolvimento extremamente rápido (HMR instantâneo) e otimiza o processo de empacotamento para a produção.
+- Pnpm: Gerenciador de pacotes eficiente que economiza espaço em disco e aumenta a velocidade de instalação de dependências, utilizando um sistema de armazenamento de conteúdo compartilhado.
+- Tailwind CSS: Utilizado para aplicar o design e a estilização da aplicação. É responsável por garantir que o layout seja atraente e responsivo em diferentes tamanhos de tela.
+- AOS: Adicionado um fluidez e animações suaves para melhor experiencia para o usuário.
+- Axios: Para melhorar a chamadas a API, e organizar URL da parte se services da aplicação.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+ ## ✅ Funcionalidades Principais
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Listagem de cripto moedas com as principas, porém com opção de mostras mais.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Página de detalhe para cada cripto moeda, como rank, variação em 24h e etc..
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Layout responsivo para desktop e mobile.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Como Executar Localmente  
+Siga os passos abaixo para rodar o projeto em sua máquina:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# 1. Clone o repositório
+git clone https://github.com/RAGNAR303/CriptoApp.git
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
->>>>>>> master
+````
+```bash
+# 2. Navegue até a pasta do projeto
+cd criptoapp
+````
+```bash
+# 3. Instale as dependências
+npm install
+# ou
+yarn
+# ou
+pnpm install
+````
+```bash
+# 4. Inicie o servidor de desenvolvimento
+npm run dev
+# ou
+yarn dev
+# ou
+pnpm dev
+
+````
+👤 Créditos
+
+Desenvolvido por RAGNAR303 / Thiago — inspirado por apps de cripto moedas, criado com proposta acadêmica, feita baseado em aulas do Matheus Fraga - Sujeito Programdor.
