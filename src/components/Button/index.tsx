@@ -12,6 +12,7 @@ export function Button({ label, icon, to, ...props }: ButtonProps) {
   return (
     <Link
       to={to ?? "#"}
+      data-aos="zoom-in-up"
       className="flex justify-center items-center md:text-2xl rounded-4xl py-2 px-4 gap-2
       font-bold text-gray-200  bg-linear-to-r from-blue-500 to-blue-800 hover:scale-110 hover:opacity-90
       active:hover:scale-105 duration-300 shadow-2xl my-5"

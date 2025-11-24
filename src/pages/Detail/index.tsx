@@ -40,8 +40,8 @@ export function Details() {
 
   if (loading || !coin) {
     return (
-      <div className="flex items-center justify-center flex-col h-full">
-        <BiLogoBitcoin className="animate-bounce text-blue-500 text-5xl " />
+      <div className="flex items-center justify-center flex-col h-screen w-screen absolute top-0 left-0 bg-gray-800/60 ">
+        <BiLogoBitcoin className="animate-bounce text-blue-500 text-7xl " />
         <h1 className="text-3xl text-white">Carregando moeda....</h1>
       </div>
     );

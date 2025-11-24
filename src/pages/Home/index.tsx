@@ -29,20 +29,6 @@ export function Home() {
     setLoading(false);
   }
 
-  // async function getData() {
-  //   fetch(
-  //     `https://rest.coincap.io/v3/assets?limit=10&offset=${offset}=0&apiKey=6818c36d863027b35484b16c4063c19a8d8892f0a7c20bc01ddd9104ffec4541`
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data: DataProps) => {
-  //       const dataCoins = data.data;
-
-  //       const listCoins = [...coins, ...dataCoins];
-  //       setCoins(listCoins);
-  //       setLoading(false);
-  //     });
-  // }
-
   useEffect(() => {
     // getData();
     getCoins();
@@ -68,9 +54,9 @@ export function Home() {
 
   if (loading || !coins) {
     return (
-      <div className="flex items-center justify-center flex-col h-full">
-        <BiLogoBitcoin className="animate-bounce text-blue-500 text-5xl " />
-        <h1 className="text-3xl text-white">Carregando moeda....</h1>
+      <div className="flex items-center justify-center flex-col h-screen w-screen absolute top-0 left-0 bg-gray-800/60 ">
+        <BiLogoBitcoin className="animate-bounce text-blue-500 text-7xl " />
+        <h1 className="text-3xl text-white">Carregando moedas....</h1>
       </div>
     );
   }
@@ -96,7 +82,7 @@ export function Home() {
           <button
             type="submit"
             className="bg-linear-to-r from-blue-500 to-blue-800 flex-1 flex justify-center items-center rounded-4xl p-2 hover:scale-110 hover:opacity-90
-      active:hover:scale-105 duration-300"
+           active:hover:scale-105 duration-300"
           >
             <FaMagnifyingGlass className="text-2xl text-gray-100" />
           </button>
@@ -128,15 +114,16 @@ export function Home() {
                   className="flex justify-center items-center  md:justify-start w-full h-full p-4
                    hover:bg-gray-500/50 duration-300 rounded-md"
                 >
-                  <div className="flex items-center justify-center gap-1  p-4 ">
+                  <div className="flex items-center justify-center gap-2  p-4 ">
                     <img
                       src={getIcon(coin.symbol)}
                       alt={coin.name}
                       className="w-12 hover:scale-110 duration-300"
                     />
-                    <div className="flex flex-col">
-                      <span>{coin.name}</span> | {coin.symbol}
-                    </div>
+                    <p className="flex flex-col text-center">
+                      <span>{coin.name}| </span>
+                      {coin.symbol}
+                    </p>
                   </div>
                 </Link>
               </td>
